@@ -1,0 +1,52 @@
+CSS Selektoren
+
+Grundsätzliches:
+Selektoren, dienen wie der Name schon sagt, dazu HTML Elemente zu selektieren.
+
+Beispiele:
+Universalselektor * 
+Element-/Typselektoren =>  html, body, h1, p,...
+Klassenselektor => .klassenname
+ID-Selektor => #idname
+Attributselektoren =>  input[id], input[type=”text”]
+Pseudoklassen/Pseudoselektoren 
+=> hover, :focus ○ :last-child, :first-child, :nth-child() ○ :empty
+Hierarchie Selektoren 
+=> article h1 -> alle h1 Nachfolger von article ○ article > h1 -> alle direkten h1 Nachfolger von article
+
+Element-/Typselektoren:
+Ein Elementselektor verwendet den Namen des Elements und ist somit für alle Elemente mit diesem Namen gültig.
+
+ID-Selektor:
+ID-Selektoren verwenden das Attribut “id” eines Elements zur Selektion. Da eine ID im Normalfall nur einmal im HTML Dokument enthalten ist, kann damit ein einzelnes Element identifiziert werden.
+
+!Jedes Element hat maximal eine eindeutige ID!
+
+Klassenselektor:
+Klassenselektoren verwenden das Attribut “class” für die Selektion der Elemente. Im Gegensatz zu Elementselektoren können mittels des Klassen-Attributes auch unterschiedliche Elemente angesprochen werden. 
+
+!Ein Element kann mehrere Klassen besitzen (diese werden durch ein Leerzeichen 
+getrennt)!
+
+Attributselektoren:
+Attributselektoren verwenden ein beliebiges Attribut bzw. dessen Wert für die Selektion der Elemente. Wie bei den Klassenselektoren können auch hier unterschiedliche Elemente selektiert werden.
+
+!Ein Element kann mehrere Klassen besitzen (diese werden durch ein Leerzeichen getrennt)!
+
+
+
+Pseudoklassen/Pseudoselektoren:
+Pseudoselektoren sind dazu da, um spezielle Zustände von Elementen gestalten zu können: Besuchte Elemente, gerade aktive Elemente, bestimmte Kinderelemente, etc. 
+
+Hierarchie Selektoren:
+Hierarchie Selektoren nutzen die Verschachtelung bzw. die Beziehung zwischen Elementen um Elemente zu selektieren. Dazu müssen die zwei in Beziehung stehenden Elemente durch ein Leerzeichen im Selektor getrennt werden.
+
+!Selektiere alle li-Elemente innerhalb eines ul-Elements!
+
+
+
+Selektor-Reihenfolge
+
+Grundsätzliches:
+Style attribute - id - class, pseudoclass,attribute - elements
+most specificity value                                least specificity value
