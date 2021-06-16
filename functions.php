@@ -41,92 +41,6 @@ function isGetRequest(): bool {
     return ($_SERVER['REQUEST_METHOD'] === 'GET');
 }
 
-
-
-
-
-
-/**
- * Liest alle Autoren aus der Datenbank aus und sortiert sie nach Name
- * 
- * @param object $conn Datenbankverbindung
- * @param string $orderDir Sortierreihenfolge
- * @return array
- */
-function fetchAutorenFromDB(object &$conn, string $orderDir = 'ASC'): array {
-    $autoren = [];
-
-    // SQL-Statement
-    $query = "SELECT * FROM autor ORDER BY name $orderDir";
-
-    // SQL Statement an die Datenbank senden und Ergebnis in $result speichern
-    $result = mysqli_query($conn, $query);
-
-    // Überprüfung ob die DB-Anfrage (SQL) erfolgreich war
-    if ($result) {
-        // Durchlaufen aller Zeilen im Ergebnis
-        while ($row = mysqli_fetch_assoc($result)) {
-            $autoren[] = $row;
-        }
-    }
-
-    return $autoren;
-}
-
-/**
- * Liest alle Kategorien aus der Datenbank aus und sortiert sie nach Name
- * 
- * @param object $conn Datenbankverbindung
- * @param string $orderDir Sortierreihenfolge
- * @return array
- */
-function fetchKategorienFromDB(object &$conn, string $orderDir = 'ASC'): array {
-    $kategorien = [];
-
-    // SQL-Statement
-    $query = "SELECT * FROM kategorie ORDER BY name $orderDir";
-
-    // SQL Statement an die Datenbank senden und Ergebnis in $result speichern
-    $result = mysqli_query($conn, $query);
-
-    // Überprüfung ob die DB-Anfrage (SQL) erfolgreich war
-    if ($result) {
-        // Durchlaufen aller Zeilen im Ergebnis
-        while ($row = mysqli_fetch_assoc($result)) {
-            $kategorien[] = $row;
-        }
-    }
-
-    return $kategorien;
-}
-
-/**
- * Liest alle Verläge aus der Datenbank aus und sortiert sie nach Name
- * 
- * @param object $conn Datenbankverbindung
- * @param string $orderDir Sortierreihenfolge
- * @return array
- */
-function fetchVerlaegeFromDB(object &$conn, string $orderDir = 'ASC'): array {
-    $verlaege = [];
-
-    // SQL-Statement
-    $query = "SELECT * FROM verlag ORDER BY name $orderDir";
-
-    // SQL Statement an die Datenbank senden und Ergebnis in $result speichern
-    $result = mysqli_query($conn, $query);
-
-    // Überprüfung ob die DB-Anfrage (SQL) erfolgreich war
-    if ($result) {
-        // Durchlaufen aller Zeilen im Ergebnis
-        while ($row = mysqli_fetch_assoc($result)) {
-            $verlaege[] = $row;
-        }
-    }
-
-    return $verlaege;
-}
-
 /**
  * Liest Parameterwert aus dem Formular aus oder gibt einen Standard-Wert zurück.
  * Zusätzlich kann der Wert auch getrimmt werden.
@@ -138,6 +52,15 @@ function fetchVerlaegeFromDB(object &$conn, string $orderDir = 'ASC'): array {
  */
 function formFieldValue(string $fieldName, $defaultValue, bool $doTrim = true) {
     $value = (isset($_POST[$fieldName]) ? $_POST[$fieldName] : $defaultValue);
+
+    if ($doTrim) {
+        return trim($value);
+    }
+    return $value;
+}
+
+function formFieldValueGet(string $fieldName, $defaultValue, bool $doTrim = true) {
+    $value = (isset($_GET[$fieldName]) ? $_GET[$fieldName] : $defaultValue);
 
     if ($doTrim) {
         return trim($value);
@@ -173,6 +96,5 @@ function validate(array $formData, array $validations, array &$valdationErrors):
             }
         }
     }
-
     return (count($valdationErrors) == 0);
 }
