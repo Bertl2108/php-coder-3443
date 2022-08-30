@@ -1,27 +1,27 @@
 <?php
 
-function connectToDB(&$conn) {
+function connectToDB() {
     // Verbindung zur Datenbank aufbauen
-    $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+    $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
     // Überprüfen, ob die Verbindung zur Datenbank nicht aufgebaut werden konnte
-    if (true <> $conn && !$conn) { //true <> $conn bedeutet das selbe wie !$conn
+    if (!$conn) {
         // Ausführung beenden und Fehlermeldung ausgeben
-        die('Es konnte keine DB-Verbindung hergestellt werden ' . $conn->connect_error);
+        die('Es konnte keine DB-Verbindung hergestellt werden ' . mysqli_connect_error());
     }
 
     // Überprüfen ob der Zeichensatz für die Verbindung zur DB nicht gesetzt werden konnte
-    if (!$conn->set_charset(DB_CHARSET)) {
+    if (!mysqli_set_charset($conn, 'utf8mb4')) {
         die('Der Zeichensatz für die Verbindung zur DB konnte nicht gesetzt werden.');
     }
 
-    // return $conn;
+    return $conn;
 }
 
 function closeDB(&$conn) {
     if ($conn) {
         // Datenbankverbindung schließen
-        $conn->close();
+        mysqli_close($conn);
     }
 }
 
@@ -42,7 +42,7 @@ function isGetRequest(): bool {
 }
 
 /**
- * Liest Parameterwert aus dem Formular aus oder gibt einen Standard-Wert zurück.
+ * Liest Parameterwert aus dem POST Formular aus oder gibt einen Standard-Wert zurück.
  * Zusätzlich kann der Wert auch getrimmt werden.
  * 
  * @param string $fieldName FeldName (Parametername)
@@ -50,7 +50,7 @@ function isGetRequest(): bool {
  * @param bool $doTrim Flag ob der Wert getrimmt werden soll
  * @return type
  */
-function formFieldValue(string $fieldName, $defaultValue, bool $doTrim = true) {
+function formFieldValuePOST(string $fieldName, $defaultValue, bool $doTrim = true) {
     $value = (isset($_POST[$fieldName]) ? $_POST[$fieldName] : $defaultValue);
 
     if ($doTrim) {
@@ -59,7 +59,16 @@ function formFieldValue(string $fieldName, $defaultValue, bool $doTrim = true) {
     return $value;
 }
 
-function formFieldValueGet(string $fieldName, $defaultValue, bool $doTrim = true) {
+/**
+ * Liest Parameterwert aus dem GET Formular aus oder gibt einen Standard-Wert zurück.
+ * Zusätzlich kann der Wert auch getrimmt werden.
+ * 
+ * @param string $fieldName FeldName (Parametername)
+ * @param type $defaultValue Standardwert
+ * @param bool $doTrim Flag ob der Wert getrimmt werden soll
+ * @return type
+ */
+function formFieldValueGET(string $fieldName, $defaultValue, bool $doTrim = true) {
     $value = (isset($_GET[$fieldName]) ? $_GET[$fieldName] : $defaultValue);
 
     if ($doTrim) {
@@ -96,5 +105,6 @@ function validate(array $formData, array $validations, array &$valdationErrors):
             }
         }
     }
+
     return (count($valdationErrors) == 0);
 }
