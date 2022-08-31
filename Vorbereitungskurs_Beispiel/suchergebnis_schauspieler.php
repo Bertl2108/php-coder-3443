@@ -25,8 +25,10 @@ if (isGetRequest()) {
 // Prepared Statement erstellen
     $stmt = $conn->prepare($query);
 
+    $SuchString = "%".$formData['schauspieler']."%";
+    
 // ? des prepared Statement binden
-    $stmt->bind_param("s", $formData['schauspieler']);
+    $stmt->bind_param('s', $SuchString);
 
 // mitgegebener Wert wegspeichern
     $Sucheschauspieler = null;

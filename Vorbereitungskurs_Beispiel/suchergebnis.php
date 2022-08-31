@@ -34,7 +34,7 @@ if (isGetRequest()) {
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!    
-    $string = "%".$formData['produktionsfirma']."%";
+    $SuchString = "%".$formData['produktionsfirma']."%";
 //  string zusammensetzten für wildcardsuche!!!!
 //  
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -45,7 +45,7 @@ if (isGetRequest()) {
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!             
                                                 
 // ? des prepared Statement binden
-    $stmt->bind_param('s', $string);
+    $stmt->bind_param('s', $SuchString);
 
 // mitgegebener Wert wegspeichern
     $SucheProduktionsfirma = null;
