@@ -6,8 +6,8 @@ $conn = connectToDb();
 
 
 
-// put your code here
-closeDb($conn);
+// DB Verbindung beenden
+$conn->close();
 ?>
 
 <!DOCTYPE html>
