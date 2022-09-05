@@ -50,7 +50,7 @@ function isGetRequest(): bool {
  * @param $defaultValue
  * @return type
  */
-function formFieldValuePost(string $name, $defaultValue = '') {
+function formFieldValuePOST(string $name, $defaultValue = '') {
     return (isset($_POST[$name]) ? $_POST[$name] : $defaultValue);
 }
 
