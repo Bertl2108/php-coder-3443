@@ -1,0 +1,83 @@
+1. Softwareinstallation (5 Punkte)
+Laden Sie sich bitte ein beliebiges Freeware-Tool zum Erstellen von ER-Diagrammen und
+SQL-Datenbanken aus dem Internet und installieren sie es anschließend. Begründen Sie in Ihrer
+Dokumentation, warum Sie dieses Tool gewählt haben.
+
+
+Ad 1.) 
+Freeware-Tool zum Erstellen von ER-Diagrammen: 
+-	My SQL-Workbench
+o	Gratis – Sehr bekannt/sehr oft in Verwendung – viel in Benutzung (WIFI Kurs)
+SQL-Datenbanken
+-	My SQL-Workbench
+o	Gratis – Sehr bekannt/sehr oft in Verwendung – viel in Benutzung (WIFI Kurs)
+XAMPP
+-	Control Panel für My SQL-Workbench und PHP-Entwicklungsumgebung
+o	Gratis – Sehr bekannt – viel in Benutzung
+Apache Net Beans
+-	PHP-Entwicklungsumgebung
+o	Gratis – Sehr bekannt – viel in Benutzung
+
+
+ER Diagramm:
+
+Ad 2.)
+SCREENSHOT + 
+
+SQL Script:
+Nur Datei in Ordner Hinzufügen!
+
+
+Foreign Keys:
+
+Ad 3.)
+Tabelle: Film
+	Foreign Key: produktionsfirma_id:
+
+On Update: Cascade
+	Begründung: ID darf geändert werden, für leichtere Administration der Tabelle  
+On Delete: Restrict
+Begründung: Bevor ID gelöscht werden darf, muss der Film einer neuen produktionsfirma_id zugewiesen werden
+
+
+Tabelle: schauspieler
+	Foreign Key: land_id:
+
+On Update: Cascade
+	Begründung: ID darf geändert werden, für leichtere Administration der Tabelle  
+On Delete: Restrict
+Begründung: Bevor ID gelöscht werden darf, muss der Schauspieler einer neuen land_id zugewiesen werden, Es darf kein Schauspieler ohne einem Herkunftsland existieren
+
+
+Tabelle: rolle
+	Foreign Key: film_id:
+
+On Update: Cascade
+	Begründung: ID darf geändert werden, für leichtere Administration der Tabelle  
+On Delete: Restrict
+Begründung: Bevor ID gelöscht werden darf, muss ein neuer Film hinterlegt werden
+
+	Foreign Key: schauspieler_id:
+
+On Update: Cascade
+	Begründung: ID darf geändert werden, für leichtere Administration der Tabelle  
+On Delete: Restrict
+Begründung: Bevor ID gelöscht werden darf, muss ein neuer Schauspieler hinterlegt werden
+
+
+
+
+Tests:
+
+ Screenshot + 
+ 
+Hier Test SQL-Code einfügen!
+
+
+
+Testfall:
+Falsches Datum = 0000.00.00 in DB einfügen
+Screenshot + Code!
+ 
+
+
