@@ -75,7 +75,7 @@ Hier Test SQL-Code einfügen!
 
 
 
-MySQL-Admin Testfälle:
+PHP MyAdmin Tests:
 
 Falsches Datum = 0000.00.00 in DB einfügen
 Screenshot + Code!
