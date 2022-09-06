@@ -1,0 +1,31 @@
+<?php
+require_once 'config.php';
+require_once 'functions.php';
+
+$conn = connectToDb();
+
+
+closeDb($conn);
+?>
+
+<!DOCTYPE html>
+<html>    
+    <head>
+        <meta charset="UTF-8">
+        <title>Filmsuche</title>
+    </head>
+    
+    <body>
+        <h1>Filmsuche</h1>
+        <div>
+            <form action="suchergebnis_schauspieler.php?schauspieler=" method="GET">
+                <label for="schauspieler">Suche Film nach Schauspieler: </label>
+                <input type="text" name="schauspieler" required>
+                <br>
+                <br>
+                <button type="submit">Suchen</button>
+                <button type="button" onclick="location.href='index.php';">Abbrechen</button>
+            </form>
+        </div>       
+    </body>    
+</html>
