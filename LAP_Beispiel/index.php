@@ -1,10 +1,13 @@
 <?php
 require_once 'functions.php';
 
-// Hier kein Query weil wir nix mit SQL machen!!!!
 $formData = [];
+$qrcode = null;
+$checkint = null;
 
+// Nur wenn GET Request gesendet wurde, wird auch prozessiert
 if (isGetRequest()) {
+
 // Übergebene Daten aus GET-Request auslesen und in Array speichern
     $formData = [
         'anrede' => formFieldValueGET('anrede', ''),
@@ -12,101 +15,105 @@ if (isGetRequest()) {
         'nachname' => formFieldValueGET('nachname', ''),
         'svnr' => formFieldValueGET('svnr', '')
     ];
+
+    // Variable für Überprüfung ob nur Numerische Werte enthalten sind
+    $checkint = $formData['svnr'];
+
+    //Wenn SVNR gefüllt und nur Ziffern enthalten sind, wird prozessiert, sonst Fehlermeldung ausgeben
+    if ($checkint != '' && is_numeric($checkint) == true) {
+
+        // Array aufspliten für Multiplikation    
+        $svnr = str_split($formData['svnr']);
+        //Kontroll Ausgabe
+        echo var_dump($svnr) . '<br> <br>';
+
+        //Multiplikation der einzelnen Ziffern
+        $sum = ($svnr[0] * 3) + ($svnr[1] * 7) + ($svnr[2] * 9) + ($svnr[4] * 5) + ($svnr[5] * 8) + ($svnr[6] * 4) + ($svnr[7] * 2) + ($svnr[8] * 1) + ($svnr[9] * 6);
+        //Kontroll Ausgabe
+        echo var_dump($sum) . '<br> <br>';
+
+        // Summe durch 11 dividieren
+        $ergebnis = $sum / 11;
+        //Kontroll Ausgabe
+        echo var_dump($ergebnis) . '<br> <br>';
+        
+        //Split bei .
+        $check = explode(".", $ergebnis);
+        //Kontroll Ausgabe
+        echo var_dump($check[0]) . '<br> <br>';
+
+        //Modulu 11 berechnen
+        $pruefziffer = $sum - ($check[0] * 11);
+        //Kontroll Ausgabe
+        echo var_dump($pruefziffer) . '<br> <br>';
+
+        //Wenn die errechnete Prüfziffer ident der gegebenen ->
+        if ($svnr[3] == $pruefziffer) {
+            // -> Dann wird im QR-Code "Richtig" ausgegeben
+            $qrcode = 'Richtig';
+        } else {
+            //-> sonst wird "Falsch" ausgegeben
+            $qrcode = 'Falsch';
+        }
+        //Kontroll Ausgabe
+        echo var_dump($qrcode) . '<br> <br>';
+        
+    } elseif ($checkint != '' && is_numeric($checkint) == false){
+        echo 'Bitte geben Sie nur Zahlen im Feld SV-Nr ein!'; 
+    }
 }
-
-$svnr = str_split($formData['svnr']);
-
-echo var_dump($svnr) . '<br> <br>';
-
-$sum = ($svnr[0] * 3) + ($svnr[1] * 7) + ($svnr[2] * 9) + ($svnr[3] * 5) + ($svnr[4] * 8) + ($svnr[5] * 4) + ($svnr[6] * 2) + ($svnr[7] * 1) + ($svnr[8] * 6);
-
-echo var_dump($sum) . '<br> <br>';
-
-$ergebnis = [];
-
-$ergebnis = $sum / 11;
-
-echo var_dump($ergebnis) . '<br> <br>';
-
-$ergebnispruefziffer = ;
-
-echo var_dump($ergebnispruefziffer) . '<br> <br>';
-
-$pruefsumme = null;
-
-$pruefsumme = $ergebnispruefziffer[1] && $ergebnispruefziffer[2];
-
-echo var_dump($pruefsumme) . '<br> <br>';
-
-$pruefsumme = $ergebnis[2] * 11;
-
-$pruefziffer = $sum - $ergebnispruefziffer;
-echo var_dump($pruefziffer) . '<br> <br>';
-
-$qrcode = null;
-
-If ($pruefziffer && $pruefziffer < 10) {
-    $qrcode = 'Richtig';
-} else {
-    $qrcode = 'Falsch';
-};
-
-
-echo var_dump($qrcode) . '<br> <br>';
-
-//Die Ziffernfolge wird von links nach rechts mit 3, 7, 9, 5, 8, 4, 2, 1, 6 gewichtet.
-//Die Produkte werden summiert.
-//Von der Summe wird der volle Rest zur nächst niedrigeren durch 11 teilbaren Zahl (modulo 11) bestimmt.
-//Ist der Rest 10, wird die Nummer nicht vergeben.
 ?>
 
 <!DOCTYPE html>
 <html>    
     <head>
         <meta charset="UTF-8">
-        <title>SV NR Prüfung</title>
+        <title>Sozialnummern Überprüfung</title>
     </head>
 
     <body>
-        <h1>SV Nr Prüfung</h1>
+        <h1>Sozialnummern Überprüfung</h1>
+        <br>
         <div>
-            <form action="index.php" method="GET"> <?php // Hier GET Request!!!!       ?>
-                <label for="anrede">Anrede</label>
+            <form action="index.php" method="GET">
+                <div>
+                    <label for="anrede">Anrede</label>
+                    <br>
+                    <select id="anrede" name="anrede" >
+                        <option value="Frau" <?= $formData['anrede'] == 'Frau' ? 'selected' : '' ?>>Frau</option>
+                        <option value="Herr" <?= $formData['anrede'] == 'Herr' ? 'selected' : '' ?>>Herr</option>
+                    </select>
+                </div>       
                 <br>
-
-
-
-
-                <select name="anrede">
-                    <option value="">Keine Angabe</option>
-                    <option value="Herr"
-                            <?= $formData['anrede'] == 'Herr' ? 'selected' : '' ?>>
-                        Herr</option>
-                    <option value="Frau"
-                            <?= $formData['anrede'] == 'Frau' ? 'selected' : '' ?>>
-                        Frau</option>
-                </select>
-
+                <div>
+                    <label for="vorname">Vorname</label>
+                    <br>
+                    <input type="text" name="vorname" placeholder="Max"value="<?= $formData['vorname'] ?>">
+                </div>
                 <br>
+                <div>
+                    <label for="nachname">Nachname</label>
+                    <br>
+                    <input type="text" name="nachname" placeholder="Mustermann"value="<?= $formData['nachname'] ?>">
+                </div>
                 <br>
-                <label for="vorname">Vorname</label>
-                <br>
-                <input  for="vorname" name="vorname" value="<?= $formData['vorname'] ?>"></input>
-                <br>
-                <br>
-                <label for="nachname">Nachname</label>
-                <br>
-                <input for="nachname" name="nachname" value="<?= $formData['nachname'] ?>"></input>
-                <br>
-                <br>
-                <label for="svnr">SV-Nummer</label>
-                <br>
-                <input for="svnr" name="svnr" value="<?= $formData['svnr'] ?>"></input>
+                <div>
+                    <label for="svnr">SV-Nr</label>
+                    <br>
+                    <input type="text" minlength="10" maxlength="10" placeholder="4245010199" name="svnr" value="<?= $formData['svnr'] ?>">
+                </div>
                 <br>
                 <br>
-                <button type="submit">Prüfen</button>
+                <div>
+                    <button type="submit">Prüfen</button>
+                </div>
             </form>
-        </div>   
 
+            <?php if ($qrcode != '') : ?>
+            <br>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?data=<?= $qrcode ?>&amp;size=175x175" />
+            <?php endif; ?>
+
+        </div>
     </body>    
 </html>
