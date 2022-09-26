@@ -9,17 +9,18 @@ $conn = connectToDb();
 if (isGetRequest()) {
     // Übergebene Daten aus GET-Request auslesen und in Array speichern
     $formData = [
-        'tabelle' => formFieldValueGET('tabelle', '')
+        'tabelle' => formFieldValueGET('tabelle', ''),
+        'schema' => formFieldValueGET('schema', '')
     ];
 
     //query aufbauen
-    $query = "SELECT * FROM information_schema.columns WHERE TABLE_SCHEMA LIKE 'information_schema' AND TABLE_NAME LIKE ?";
+    $query = "SELECT * FROM information_schema.columns WHERE TABLE_SCHEMA LIKE ? AND TABLE_NAME LIKE ?";
     //Kontrolle
     echo var_dump($query) . '<br><br>';
     //Statement vorbereiten
     $stmt = $conn->prepare($query);
     //Parameter binden
-    $stmt->bind_param('s', $formData['tabelle']);
+    $stmt->bind_param('ss', $formData['schema'], $formData['tabelle'] );
 
     // Statement ausführen
     $stmt->execute();
@@ -36,7 +37,8 @@ if (isGetRequest()) {
         while ($row = $result->fetch_object()) {
             $spalten[] = $row;
         }
-    }
+    } 
+    
 }
 
 // DB Verbindung beenden
