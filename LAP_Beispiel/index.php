@@ -101,7 +101,7 @@ if (isGetRequest()) {
                 <div>
                     <label for="svnr">SV-Nr</label>
                     <br>
-                    <input type="text" minlength="10" maxlength="10" placeholder="4245010199" name="svnr" value="<?= $formData['svnr'] ?>">
+                    <input type="text" minlength="10" maxlength="10" placeholder="4245010199" name="svnr" value="<?= $formData['svnr'] ?>" required>
                 </div>
                 <br>
                 <br>
